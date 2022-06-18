@@ -62,10 +62,10 @@ set(LONG_DESCRIPTION
 # SET(PACKAGE_NAME pypilot_pi)
 
 set(VERSION_MAJOR "0")
-set(VERSION_MINOR "30")
+set(VERSION_MINOR "34")
 set(VERSION_PATCH "3")
-set(VERSION_TWEAK "4")
-set(VERSION_DATE "17/06/2022") # DD/MM/YYYY format
+set(VERSION_TWEAK "0")
+set(VERSION_DATE "18/06/2022") DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov50")
 set(OCPN_API_VERSION_MAJOR "1")
 set(OCPN_API_VERSION_MINOR "16")
@@ -178,10 +178,12 @@ SET(HDRS
     )
 
 
+if(NOT QT_ANDROID)
   SET(SRCS ${SRCS}
      src/CalibrationDialog.cpp
      src/CalibrationPlot.cpp						   
      )
+endif(NOT QT_ANDROID)
 
 set(LIBSSRC libs/wxJSON/src/jsonreader.cpp libs/wxJSON/src/jsonval.cpp libs/wxJSON/src/jsonwriter.cpp)
 
@@ -206,19 +208,17 @@ set(EXTINCLUDE_DIR ${EXTINCLUDE_DIR} extinclude libs/ocpn-api/)
 
 # Not doing json validator		 
 
-#
-# ----- If using JSON validation in plugin section above is needed ----- ##
-#
 
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/ocpninclude)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/ocpnsrc/glu/include)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/${EXTINCLUDE_DIR})
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/)
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/GL)
+#include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/glshim)
+#include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/GL)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/ocpn-api)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/wxJSON/include)
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/wxservdisc)
+#include_directories(BEFORE ${PROJECT_SOURCE_DIR}/libs/wxservdisc)
 
 #
 # ----- Change below to match project requirements for android build ----- ##
@@ -258,34 +258,19 @@ target_sources(${PACKAGE_NAME} PUBLIC ${SRCS} ${HDRS} ${OCPNSRC} ${EXTSRC} ${LIB
 #    target_link_libraries(${PACKAGE_NAME} ocpn::tinyxml)
 #endif(NOT OCPN_FLATPAK_CONFIG)
 
-
 add_subdirectory(libs/wxservdisc)
 
 include_directories( ${PROJECT_SOURCE_DIR}/libs/wxservdisc/src )
 target_link_libraries(${PACKAGE_NAME} "wxservdisc")
 
 
-
 add_definitions(-DTIXML_USE_STL)
 
-#
-# ----- If using JSON validation in plugin section below is needed ----- ##
-#
 
 # Not doing JSOn Schema Validator								
 
-
-#
-# ----- If using JSON validation in plugin section above is needed ----- ##
-#
-
 ##
 ## ----- Change above to match project requirements ----- ##
-##
-
-##
-## ----- do not change next section - needed to configure build process ----- ##
-##
 
 # Needed for android builds  - current
 if(QT_ANDROID)
