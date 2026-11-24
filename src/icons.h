@@ -7,6 +7,7 @@
 #	include <wx/wx.h>
 #endif
 
+#include <cstdint>
 #include "ocpn_plugin.h"
 
 #include <wx/filename.h>

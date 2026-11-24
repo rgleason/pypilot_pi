@@ -31,6 +31,8 @@ workflows:
               <<: *std-filters
           - build-flatpak-aarch64-2408:
               <<: *std-filters
+          - build-flatpak-aarch64-2508:
+              <<: *std-filters
           - build-flatpak-x86-2408:
               <<: *std-filters
           - build-msvc-wx32-2022:
@@ -256,6 +258,23 @@ jobs:
         - FLATPAK_BRANCH: stable
         - CLOUDSMITH_PKG_EXT: gz
         - SDK_VER: 24.08
+        - DEPLOY_USE_ORB: true
+        steps:
+        - checkout
+        - run: chmod a+x ci/*.sh
+        - run:
+            command: bash ci/circleci-build-flatpak.sh
+        - deploy-code
+    build-flatpak-aarch64-2508:
+        machine:
+            image: ubuntu-2404:current
+            resource_class: arm.medium
+        environment:
+        - OCPN_TARGET:  flatpak
+        - BUILD_ARCH: aarch64
+        - FLATPAK_BRANCH: stable
+        - CLOUDSMITH_PKG_EXT: gz
+        - SDK_VER: 25.08
         - DEPLOY_USE_ORB: true
         steps:
         - checkout
