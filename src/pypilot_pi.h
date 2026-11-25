@@ -50,6 +50,7 @@
 #define _(s) wxGetTranslation((s))
 #endif // WXINTL_NO_GETTEXT_MACRO
 
+#include <cstdint>
 #include "ocpn_plugin.h"
 #include "qtstylesheet.h"
 

@@ -18,6 +18,10 @@ if ($ENV{CIRCLECI})
       "$ENV{CIRCLE_PROJECT_USERNAME}/$ENV{CIRCLE_PROJECT_REPONAME}"
   )
   set(GIT_REPOSITORY_BRANCH "$ENV{CIRCLE_BRANCH}")
+  # CircleCI names fork PR builds pull/N; GitHub exposes refs/pull/N/head.
+  if (GIT_REPOSITORY_BRANCH MATCHES "^pull/[0-9]+$")
+    set(GIT_REPOSITORY_BRANCH "refs/${GIT_REPOSITORY_BRANCH}/head")
+  endif ()
   set(GIT_REPOSITORY_TAG "$ENV{CIRCLE_TAG}")
 elseif ($ENV{TRAVIS})
   set(GIT_REPOSITORY "$ENV{TRAVIS_REPO_SLUG}")
